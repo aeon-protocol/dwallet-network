@@ -1,16 +1,14 @@
 // Copyright (c) Mysten Labs, Inc.
 // SPDX-License-Identifier: BSD-3-Clause-Clear
 
-import { getFullnodeUrl, isDWalletClient, DWalletClient } from '@dwallet-network/dwallet.js/client';
+import { DWalletClient, getFullnodeUrl, isDWalletClient } from '@dwallet-network/dwallet.js/client';
 import type { DWalletClientOptions } from '@dwallet-network/dwallet.js/client';
 import { createContext, useMemo, useState } from 'react';
 
 import type { NetworkConfig } from '../hooks/networkConfig.js';
 
-type NetworkConfigs<T extends NetworkConfig | DWalletClient = NetworkConfig | DWalletClient> = Record<
-	string,
-	T
->;
+type NetworkConfigs<T extends NetworkConfig | DWalletClient = NetworkConfig | DWalletClient> =
+	Record<string, T>;
 
 export interface SuiClientProviderContext {
 	client: DWalletClient;
@@ -46,7 +44,7 @@ const DEFAULT_CREATE_CLIENT = function createClient(
 	_name: string,
 	config: NetworkConfig | DWalletClient,
 ) {
-	if (isSuiClient(config)) {
+	if (isDWalletClient(config)) {
 		return config;
 	}
 
