@@ -296,7 +296,7 @@ criterion = { version = "0.5.0", features = [
 ] }
 crossterm = "0.25.0"
 csv = "1.2.1"
-dashmap = "5.4.0"
+dashmap = "*"
 # datatest-stable = "0.1.2"
 datatest-stable = { git = "https://github.com/nextest-rs/datatest-stable.git", rev = "72db7f6d1bbe36a5407e96b9488a581f763e106f" }
 derivative = "2.2.0"
@@ -345,7 +345,7 @@ impl-trait-for-tuples = "0.2.0"
 indexmap = { version = "2.1.0", features = ["serde"] }
 indicatif = "0.17.2"
 inquire = "0.6.0"
-insta = { version = "1.21.1", features = ["redactions", "yaml", "json"] }
+insta = { version = "*", features = ["redactions", "yaml", "json"] }
 integer-encoding = "3.0.1"
 itertools = "0.10.5"
 jemalloc-ctl = "^0.5"
@@ -361,7 +361,7 @@ leb128 = "0.2.5"
 lru = "0.10"
 markdown-gen = "1.2.1"
 match_opt = "0.1.2"
-mime = "0.3"
+mime = "0.3.17"
 mockall = "0.11.4"
 more-asserts = "0.3.1"
 msim = { git = "https://github.com/MystenLabs/mysten-sim.git", rev = "1a52783d6600ecc22e15253a982f77881bd47c77", package = "msim" }
@@ -604,7 +604,7 @@ sui-package-resolver = { path = "crates/sui-package-resolver" }
 sui-proc-macros = { path = "crates/sui-proc-macros" }
 sui-protocol-config = { path = "crates/sui-protocol-config" }
 sui-protocol-config-macros = { path = "crates/sui-protocol-config-macros" }
-sui-proxy = { path = "crates/sui-proxy" }
+sui-proxy = { git = "https://github.com/MystenLabs/sui", package = "sui-proxy",branch="testnet" }
 sui-replay = { path = "crates/sui-replay" }
 sui-rosetta = { path = "crates/sui-rosetta" }
 sui-rpc-loadgen = { path = "crates/sui-rpc-loadgen" }
@@ -626,7 +626,7 @@ sui-tool = { path = "crates/sui-tool" }
 sui-transaction-builder = { path = "crates/sui-transaction-builder" }
 sui-transaction-checks = { path = "crates/sui-transaction-checks" }
 sui-transactional-test-runner = { path = "crates/sui-transactional-test-runner" }
-sui-types = { path = "crates/sui-types" }
+sui-types = { git = "https://github.com/MystenLabs/sui", package = "sui-types",branch="testnet" }
 sui-upgrade-compatibility-transactional-tests = { path = "crates/sui-upgrade-compatibility-transactional-tests" }
 sui-verifier-transactional-tests = { path = "crates/sui-verifier-transactional-tests" }
 telemetry-subscribers = { path = "crates/telemetry-subscribers" }
