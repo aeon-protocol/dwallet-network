@@ -833,13 +833,14 @@ pub async fn main() {
             
 
             let epoch_id_committee_arg = ptb.pure(genesis_epoch).unwrap();
+            let recovery_enabled_arg = ptb.pure(false).unwrap();
 
             let call = ProgrammableMoveCall {
                 package: ObjectID::from_hex_literal("0x0000000000000000000000000000000000000000000000000000000000000003").unwrap(),
                 module: Identifier::new("sui_state_proof").expect("can't create identifier"),
                 function: Identifier::new("init_module").expect("can't create identifier"),
                 type_arguments: vec![],
-                arguments: vec![init_committee_arg, package_id_arg, init_event_type_layout_arg, approve_event_type_layout_arg, epoch_id_committee_arg],
+                arguments: vec![init_committee_arg, package_id_arg, init_event_type_layout_arg, approve_event_type_layout_arg, epoch_id_committee_arg, recovery_enabled_arg],
             };
 
             ptb.command(Command::MoveCall(Box::new(call)));

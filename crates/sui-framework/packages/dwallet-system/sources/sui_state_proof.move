@@ -3,16 +3,18 @@ module dwallet_system::sui_state_proof {
 
     use dwallet::object::{Self, ID, UID};
     use dwallet_system::dwallet::{Self, DWalletCap, MessageApproval};
-    use dwallet::tx_context::{TxContext};
+    use dwallet::tx_context::{Self, TxContext};
     use dwallet::transfer;
     use dwallet::bcs;
     use dwallet::event;
+    use std::option::{Self, Option};
     use std::vector;
 
 
     const EWrongEpochSubmitted: u64 = 0;
     const EWrongDWalletCapId: u64 = 1;
     const EStateProofNoMessagesToApprove: u64 = 2;
+    const EWrongRecoveryAddress: u64 = 3;
 
 
     struct StateProofRegistry has key, store {
@@ -26,6 +28,7 @@ module dwallet_system::sui_state_proof {
         package_id: vector<u8>,
         init_cap_event_type_layout: vector<u8>,
         approve_event_type_layout: vector<u8>,
+        recovery_address_opt: Option<address>,
     }
 
     struct EpochCommittee has key, store {
@@ -42,6 +45,7 @@ module dwallet_system::sui_state_proof {
 
     struct CapWrapper has key, store {
         id: UID,
+        registry_id: ID,
         cap_id_sui: ID,
         cap: DWalletCap,
     }
@@ -61,6 +65,7 @@ module dwallet_system::sui_state_proof {
         init_cap_event_type_layout: vector<u8>, 
         approve_event_type_layout: vector<u8>, 
         epoch_id_committee: u64, 
+        recovery_address_opt: Option<address>,
         ctx: &mut TxContext) {
         let registry = StateProofRegistry {
             id: object::new(ctx),
@@ -73,6 +78,7 @@ module dwallet_system::sui_state_proof {
             package_id: package_id,
             init_cap_event_type_layout: init_cap_event_type_layout,
             approve_event_type_layout: approve_event_type_layout,
+            recovery_address_opt: recovery_address_opt,
         };
 
         let first_committee = EpochCommittee {
@@ -144,6 +150,7 @@ module dwallet_system::sui_state_proof {
         
         let wrapper = CapWrapper {
             id: object::new(ctx),
+            registry_id: config.registry_id,
             cap_id_sui: object::id_from_address(sui_cap_id_address),
             cap: dwallet_cap,
         };
@@ -181,5 +188,18 @@ module dwallet_system::sui_state_proof {
 
         assert!(vector::length(&messages_to_approve) > 0, EStateProofNoMessagesToApprove);
         dwallet::approve_messages(&cap_wrapper.cap, messages_to_approve)
+    }
+
+    public fun recover(
+        config: &StateProofConfig,
+        cap_wrapper: &CapWrapper,
+        messages: vector<vector<u8>>,
+        ctx: &mut TxContext
+    ): vector<MessageApproval>
+    {
+        let recovery_address = option::borrow(&config.recovery_address_opt);
+        assert!(tx_context::sender(ctx) == *recovery_address, EWrongRecoveryAddress);
+        assert!(config.registry_id == cap_wrapper.registry_id, EWrongDWalletCapId);
+        dwallet::approve_messages(&cap_wrapper.cap, messages)
     }
 }
