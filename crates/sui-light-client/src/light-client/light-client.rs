@@ -833,14 +833,23 @@ pub async fn main() {
             
 
             let epoch_id_committee_arg = ptb.pure(genesis_epoch).unwrap();
-            let recovery_enabled_arg = ptb.pure(false).unwrap();
+            
+            let call_option_none: ProgrammableMoveCall = ProgrammableMoveCall {
+                package: ObjectID::from_hex_literal("0x0000000000000000000000000000000000000000000000000000000000000001").unwrap(),
+                module: Identifier::new("option").expect("can't create identifier"),
+                function: Identifier::new("none").expect("can't create identifier"),
+                type_arguments: vec![TypeTag::Address],
+                arguments: vec![],
+            };
 
-            let call = ProgrammableMoveCall {
+            let recovery_opt_arg = ptb.command(Command::MoveCall(Box::new(call_option_none)));
+
+            let call: ProgrammableMoveCall = ProgrammableMoveCall {
                 package: ObjectID::from_hex_literal("0x0000000000000000000000000000000000000000000000000000000000000003").unwrap(),
                 module: Identifier::new("sui_state_proof").expect("can't create identifier"),
                 function: Identifier::new("init_module").expect("can't create identifier"),
                 type_arguments: vec![],
-                arguments: vec![init_committee_arg, package_id_arg, init_event_type_layout_arg, approve_event_type_layout_arg, epoch_id_committee_arg, recovery_enabled_arg],
+                arguments: vec![init_committee_arg, package_id_arg, init_event_type_layout_arg, approve_event_type_layout_arg, epoch_id_committee_arg, recovery_opt_arg],
             };
 
             ptb.command(Command::MoveCall(Box::new(call)));
