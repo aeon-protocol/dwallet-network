@@ -290,8 +290,10 @@ impl Certifier {
             if certificate.is_some() {
                 break;
             }
+            let mut next_request_future = requests.next();
+
             tokio::select! {
-                result = &mut requests.next() => {
+                result = &mut next_request_future => {
                     match result {
                         Some(Ok(vote)) => {
                             certificate = votes_aggregator.append(
