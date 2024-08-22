@@ -863,8 +863,6 @@ pub struct ProtocolConfig {
     // twopc_mpc::sign_verify_encrypted_signature_parts_prehash_cost_base
     sign_verify_encrypted_signature_parts_prehash_cost_base: Option<u64>,
 
-    transfer_dwallet_cost_base: Option<u64>,
-
     //sui_state_proof::sui_state_proof_verify_committee_cost_base
     sui_state_proof_verify_committee_cost_base: Option<u64>,
 
