@@ -198,11 +198,18 @@ pub fn sui_state_proof_verify_link_cap(
                     .unwrap()
                     .to_json_value();
 
+                let sui_cap_id_str = match json_val.clone() {
+                    JsonValue::Object(map) => map
+                        .get("cap_id")
+                        .and_then(|s| s.as_str())
+                        .map(|s| s.to_owned()),
+                    _ => None,
+                };
     
-            let sui_cap_id = sui_cap_id_str.and_then(|s| SuiAddress::from_str(&s).ok()).unwrap();
-            let dwallet_cap_id_str = match json_val.clone() {
-                JsonValue::Object(map) => map.get("dwallet_network_cap_id").and_then(|s| s.as_str()).map(|s| s.to_owned()),
-                _ => None,
+                let sui_cap_id = sui_cap_id_str.and_then(|s| SuiAddress::from_str(&s).ok()).unwrap();
+                let dwallet_cap_id_str = match json_val.clone() {
+                    JsonValue::Object(map) => map.get("dwallet_network_cap_id").and_then(|s| s.as_str()).map(|s| s.to_owned()),
+                    _ => None,
             };    
             let dwallet_cap_id = dwallet_cap_id_str.and_then(|s| SuiAddress::from_str(&s).ok()).unwrap();
                     Some((sui_cap_id, dwallet_cap_id))
