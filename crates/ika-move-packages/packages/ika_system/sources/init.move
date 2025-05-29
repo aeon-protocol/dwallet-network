@@ -131,6 +131,11 @@ public fun initialize(
     protocol_cap
 }
 
+#[test_only]
+public fun init_for_testing(ctx: &mut TxContext) {
+    init(INIT {}, ctx);
+}
+
 
 // // === Test only ===
 
