@@ -611,6 +611,7 @@ public fun validator_stake_amount(self: &mut System, validator_id: ID): u64 {
 
 #[test_only]
 use sui::vec_set::VecSet;
+use ika_system::validator::Validator;
 
 #[test_only]
 /// Returns all the validators who are currently reporting `validator_id`
@@ -635,10 +636,11 @@ public fun set_epoch_for_testing(self: &mut System, epoch_num: u64) {
 #[test_only]
 public fun request_add_validator_for_testing(
     self: &mut System,
+    validator: Validator,
     cap: &ValidatorCap,
 ) {
     let self = self.inner_mut();
-    self.request_add_validator_for_testing(cap)
+    self.request_add_validator_for_testing(validator, cap)
 }
 
 #[test_only]
@@ -662,40 +664,15 @@ public fun inner_mut_for_testing(self: &mut System): &mut SystemInnerV1 {
 // // candidate validator - bypassing the proof of possession check and other metadata validation
 // // in the process.
 // #[test_only]
-// public fun request_add_validator_candidate_for_testing(
+// public fun request_add_validator_for_testing(
 //     self: &mut System,
-//     commission_rate: u16,
-//     name: String,
-//     protocol_pubkey_bytes: vector<u8>,
-//     network_pubkey_bytes: vector<u8>,
-//     consensus_pubkey_bytes: vector<u8>,
-//     class_groups_pubkey_and_proof_bytes: ClassGroupsPublicKeyAndProof,
-//     proof_of_possession_bytes: vector<u8>,
-//     network_address: String,
-//     p2p_address: String,
-//     consensus_address: String,
-//     metadata: ValidatorMetadata,
-//     ctx: &mut TxContext,
+//     validator: &Validator,
 // ): (ValidatorCap, ValidatorOperationCap) {
 //     let self = self.inner_mut();
-//     self.request_add_validator_candidate_for_testing(
-//         protocol_pubkey_bytes,
-//         network_pubkey_bytes,
-//         consensus_pubkey_bytes_bytes,
-//         class_groups_pubkey_and_proof_bytes,
-//         proof_of_possession_bytes,
-//         name,
-//         description,
-//         image_url,
-//         project_url,
-//         network_address,
-//         p2p_address,
-//         consensus_address,
-//         computation_price,
-//         commission_rate,
-//         ctx,
-//     )
+//     self.request_add_validator_for_testing(validator)
 // }
+
+
 
 // // CAUTION: THIS CODE IS ONLY FOR TESTING AND THIS MACRO MUST NEVER EVER BE REMOVED.
 // #[test_only]

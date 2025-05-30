@@ -27,6 +27,7 @@ use sui::package::{UpgradeCap, UpgradeTicket, UpgradeReceipt};
 use sui::bcs;
 use std::string::String;
 use sui::vec_map::VecMap;
+use ika_system::validator::{Validator,Self};
 
 const PARAMS_MESSAGE_INTENT: vector<u8> = vector[2, 0, 0];
 
@@ -821,13 +822,13 @@ public(package) fun set_epoch_for_testing(self: &mut SystemInnerV1, epoch_num: u
     self.epoch = epoch_num
 }
 
-#[test_only]
-public(package) fun request_add_validator_for_testing(
-    self: &mut SystemInnerV1,
-    cap: &ValidatorCap,
-) {
-    self.validator_set.request_add_validator(self.epoch, cap);
-}
+// #[test_only]
+// public(package) fun request_add_validator_for_testing(
+//     self: &mut SystemInnerV1,
+//     cap: &ValidatorCap,
+// ) {
+//     self.validator_set.request_add_validator(self.epoch, cap);
+// }
 
 #[test_only]
 public(package) fun set_stake_subsidy_stake_subsidy_distribution_counter(
@@ -863,7 +864,7 @@ public(package) fun epoch_duration_ms(self: &SystemInnerV1): u64 {
 //     commission_rate: u16,
 //     ctx: &mut TxContext,
 // ): (ValidatorCap, ValidatorOperationCap) {
-//     let (validator, cap, operation_cap) = validator_inner_v1::new_for_testing(
+//     let (validator, cap, operation_cap) = validator::new_for_testing(
 //         ctx.sender(),
 //         protocol_pubkey_bytes,
 //         network_pubkey_bytes,
@@ -887,3 +888,12 @@ public(package) fun epoch_duration_ms(self: &SystemInnerV1): u64 {
 //     self.validators.request_add_validator_candidate(validator, ctx);
 //     (cap, operation_cap)
 // }
+
+#[test_only]
+public(package) fun request_add_validator_for_testing(
+    self: &mut SystemInnerV1,
+    validator: Validator,
+    validator_cap: &ValidatorCap,
+) {
+    self.validator_set.request_add_validator_for_testing(self.epoch, validator, validator_cap);
+}

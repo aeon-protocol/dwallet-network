@@ -826,3 +826,37 @@ public(package) fun num_shares(validator: &Validator): u64 { validator.num_share
 
 #[test_only]
 public(package) fun latest_epoch(validator: &Validator): u64 { validator.latest_epoch } 
+
+#[test_only]
+public(package) fun new_for_testing(validator_info: ValidatorInfo, ctx: &mut TxContext): (Validator, ValidatorCap, ValidatorOperationCap, ValidatorCommissionCap) {
+    let id = object::new(ctx);
+    let exchange_rates = table::new(ctx);
+    let pending_stake = pending_values::empty();
+    let pre_active_withdrawals = pending_values::empty();
+    let pending_shares_withdraw = pending_values::empty();
+    let validator_cap = validator_cap::new_validator_cap(id.to_inner(), ctx);
+    let validator_operation_cap = validator_cap::new_validator_operation_cap(id.to_inner(), ctx);
+    let validator_commission_cap = validator_cap::new_validator_commission_cap(id.to_inner(), ctx);
+
+    (Validator {
+        id,
+        validator_info,
+        state: ValidatorState::PreActive,
+        activation_epoch: option::none(),
+        latest_epoch: 0,
+        ika_balance: 0,
+        num_shares: 0,
+        rewards_pool: balance::zero(),
+        commission: balance::zero(),
+        validator_cap_id: object::id(&validator_cap),
+        operation_cap_id: object::id(&validator_operation_cap),
+        commission_cap_id: object::id(&validator_commission_cap),
+        extra_fields: bag::new(ctx),
+        exchange_rates,
+        pending_stake,
+        pre_active_withdrawals,
+        pending_shares_withdraw,
+        pending_commission_rate: pending_values::empty(),
+        commission_rate: 0,
+    }, validator_cap, validator_operation_cap, validator_commission_cap)
+}

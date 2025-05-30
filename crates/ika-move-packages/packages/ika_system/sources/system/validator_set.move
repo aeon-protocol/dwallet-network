@@ -1100,3 +1100,22 @@ public(package) fun can_withdraw_staked_ika_early(
     let is_next_committee = self.next_epoch_active_committee.is_some_and!(|c| c.contains(&validator_id));
     staked_ika.can_withdraw_early(is_next_committee, current_epoch)
 }
+
+#[test_only]
+public fun request_add_validator_for_testing(
+    self: &mut ValidatorSet,
+    current_epoch: u64,
+    mut validator: Validator,
+    validator_cap: &ValidatorCap,
+) {
+    let validator_id = validator.validator_id();
+    let committee_selected = self.next_epoch_active_committee.is_some();
+    validator.activate(validator_cap, current_epoch, committee_selected);
+
+    self.validators.add(validator_id, validator);
+
+
+    let in_set = self.update_pending_active_set(validator_id, current_epoch, committee_selected, true);
+    assert!(in_set, ECannotJoinActiveSet);
+}
+
