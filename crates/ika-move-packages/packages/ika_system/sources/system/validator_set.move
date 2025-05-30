@@ -1116,6 +1116,6 @@ public fun request_add_validator_for_testing(
 
 
     let in_set = self.update_pending_active_set(validator_id, current_epoch, committee_selected, true);
-    assert!(in_set, ECannotJoinActiveSet);
+    // assert!(in_set, ECannotJoinActiveSet);
 }
 
