@@ -828,7 +828,7 @@ public(package) fun num_shares(validator: &Validator): u64 { validator.num_share
 public(package) fun latest_epoch(validator: &Validator): u64 { validator.latest_epoch } 
 
 #[test_only]
-public(package) fun new_for_testing(validator_info: ValidatorInfo, ctx: &mut TxContext): (Validator, ValidatorCap, ValidatorOperationCap, ValidatorCommissionCap) {
+public fun new_for_testing(validator_info: ValidatorInfo, ctx: &mut TxContext): (Validator, ValidatorCap, ValidatorOperationCap, ValidatorCommissionCap) {
     let id = object::new(ctx);
     let exchange_rates = table::new(ctx);
     let pending_stake = pending_values::empty();
