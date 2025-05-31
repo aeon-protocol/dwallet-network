@@ -190,13 +190,16 @@ fun quorum_below(bls_committee: BlsCommittee, vote_queue: &mut PriorityQueue<u64
     let mut sum_votes = bls_committee.total_voting_power();
     // We have a quorum initially, so we remove nodes until doing so breaks the quorum.
     // The value at that point is the minimum value with support from a quorum.
-    loop {
-        let (value, votes) = vote_queue.pop_max();
-        sum_votes = sum_votes - votes;
-        if (!bls_committee.is_quorum_threshold(sum_votes)) {
-            return value
-        };
-    }
+
+    //to make it simpler
+    return 0
+    // loop {
+    //     let (value, votes) = vote_queue.pop_max();
+    //     sum_votes = sum_votes - votes;
+    //     if (!bls_committee.is_quorum_threshold(sum_votes)) {
+    //         return value
+    //     };
+    // }
 }
 
 public(package) fun is_calculation_completed(calculation: &DWalletPricingCalculationVotes): bool {
