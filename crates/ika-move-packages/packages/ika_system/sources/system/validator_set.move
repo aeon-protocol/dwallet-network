@@ -1130,7 +1130,7 @@ public fun request_add_validator_for_testing(
 
 
 #[test_only]
-public fun add_validator_to_active_set(
+public fun add_validator_to_active_committee_for_testing(
     self: &mut ValidatorSet,
     validator_id: ID,
     protocol_pubkey_bytes: vector<u8>,
