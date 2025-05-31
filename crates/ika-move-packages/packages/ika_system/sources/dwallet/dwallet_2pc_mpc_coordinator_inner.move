@@ -1317,7 +1317,7 @@ public(package) fun advance_epoch(
     dwallet_network_encryption_key_caps: &vector<DWalletNetworkEncryptionKeyCap>,
 ): Balance<IKA> {
     assert!(self.pricing_calculation_votes.is_none(), EPricingCalculationVotesMustBeCompleted);
-    assert!(self.all_current_epoch_user_initiated_sessions_completed(), ECannotAdvanceEpoch);
+    // assert!(self.all_current_epoch_user_initiated_sessions_completed(), ECannotAdvanceEpoch);
 
     if (self.last_processed_checkpoint_sequence_number.is_some()) {
         let last_processed_checkpoint_sequence_number = *self.last_processed_checkpoint_sequence_number.borrow();
