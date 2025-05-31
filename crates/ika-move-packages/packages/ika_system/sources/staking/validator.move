@@ -319,13 +319,14 @@ public(package) fun request_withdraw_stake(
 
     // If the node is in the committee, the stake will be withdrawn in E+2,
     // otherwise in E+1.
-    let withdraw_epoch = if (in_next_committee) {
-        current_epoch + 2
-    } else if (in_current_committee) {
-        current_epoch + 1
-    } else {
-        abort EWithdrawDirectly
-    };
+    let withdraw_epoch = current_epoch + 1;
+    // if (in_next_committee) {
+    //     current_epoch + 2
+    // } else if (in_current_committee) {
+    //     current_epoch + 1
+    // } else {
+    //     abort EWithdrawDirectly
+    // };
 
     let principal_amount = staked_ika.value();
     let share_amount = validator
