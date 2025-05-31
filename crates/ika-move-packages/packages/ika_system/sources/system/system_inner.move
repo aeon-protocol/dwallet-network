@@ -903,6 +903,7 @@ public fun add_validator_to_active_committee_for_testing(
     self: &mut SystemInnerV1,
     validator_id: ID,
     protocol_pubkey: vector<u8>,
+    new_epoch: u64,
 ) {
-    self.validator_set.add_validator_to_active_committee_for_testing(validator_id, protocol_pubkey)
+    self.validator_set.add_validator_to_active_committee_for_testing(validator_id, protocol_pubkey, new_epoch)
 }

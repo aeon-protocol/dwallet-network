@@ -666,9 +666,10 @@ public fun add_validator_to_active_committee_for_testing(
     self: &mut System,
     validator_id: ID,
     protocol_pubkey: vector<u8>,
+    new_epoch: u64,
 ) {
     let self = self.inner_mut();
-    self.add_validator_to_active_committee_for_testing(validator_id, protocol_pubkey)
+    self.add_validator_to_active_committee_for_testing(validator_id, protocol_pubkey, new_epoch)
 }
 
 // #[test_only]
