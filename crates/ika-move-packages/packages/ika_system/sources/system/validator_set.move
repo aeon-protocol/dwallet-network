@@ -1134,6 +1134,7 @@ public fun add_validator_to_active_committee_for_testing(
     self: &mut ValidatorSet,
     validator_id: ID,
     protocol_pubkey_bytes: vector<u8>,
+    new_epoch: u64,
 ) {
     let g1_element = g1_from_bytes(&protocol_pubkey_bytes);
     let uncompressed_g1_element = g1_to_uncompressed_g1(&g1_element);
@@ -1145,4 +1146,7 @@ public fun add_validator_to_active_committee_for_testing(
     updated_members.push_back(new_member);
 
     self.active_committee = new_bls_committee(updated_members);
+    let validator = self.get_validator_mut(validator_id);
+    let validator_rewards = balance::zero();
+    validator.advance_epoch(validator_rewards, new_epoch);
 }
