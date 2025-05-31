@@ -26,6 +26,7 @@ use sui::object_table::{Self, ObjectTable};
 use sui::vec_map::{Self, VecMap};
 use sui::vec_set::{Self, VecSet};
 use std::string::String;
+    use std::debug;
 
 public struct ValidatorSet has store {
     /// Total amount of stake from all active validators at the beginning of the epoch.
@@ -918,6 +919,11 @@ fun distribute_reward(
 ) {
     let pending_active_set = self.pending_active_set.borrow_mut();
     let members = *self.active_committee.members();
+    debug::print(&staking_rewards.value());
+    debug::print(adjusted_staking_reward_amounts);
+    debug::print(&members.length());
+
+
     let length = members.length();
     let mut i = 0;
     while (i < length) {
