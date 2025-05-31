@@ -661,23 +661,23 @@ public fun inner_mut_for_testing(self: &mut System): &mut SystemInnerV1 {
     self.inner_mut()
 }
 
-#[test_only]
-/// Directly adds a validator to the active committee for the current epoch.
-/// This is a simplified function for testing purposes and bypasses normal
-/// validator addition and epoch transition logic, including pricing considerations.
-/// It assumes that a corresponding `directly_add_active_validator_for_testing` function
-/// exists on `SystemInnerV1` that handles the low-level addition and updates
-/// internal state like the BlsCommittee.
-public fun add_validator_to_active_committee_for_testing(
-    self: &mut System,
-    validator: validator::Validator,
-) {
-    let inner_system = self.inner_mut();
-    // This function is assumed to exist in system_inner.move and would
-    // be responsible for adding the validator to the active set
-    // and updating the BlsCommittee and other relevant internal states.
-    inner_system.directly_add_active_validator_for_testing(validator);
-}
+// #[test_only]
+// /// Directly adds a validator to the active committee for the current epoch.
+// /// This is a simplified function for testing purposes and bypasses normal
+// /// validator addition and epoch transition logic, including pricing considerations.
+// /// It assumes that a corresponding `directly_add_active_validator_for_testing` function
+// /// exists on `SystemInnerV1` that handles the low-level addition and updates
+// /// internal state like the BlsCommittee.
+// public fun add_validator_to_active_committee_for_testing(
+//     self: &mut System,
+//     validator: validator::Validator,
+// ) {
+//     let inner_system = self.inner_mut();
+//     // This function is assumed to exist in system_inner.move and would
+//     // be responsible for adding the validator to the active set
+//     // and updating the BlsCommittee and other relevant internal states.
+//     inner_system.directly_add_active_validator_for_testing(validator);
+// }
 
 
 
