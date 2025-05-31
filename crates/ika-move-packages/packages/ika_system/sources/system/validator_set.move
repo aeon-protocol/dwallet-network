@@ -10,7 +10,7 @@ use ika_system::staked_ika::{
 };
 use ika_system::validator::{Self, Validator};
 use ika_system::validator_cap::{ValidatorCap, ValidatorOperationCap, ValidatorCommissionCap};
-use ika_system::bls_committee::{Self, BlsCommittee, new_bls_committee, new_bls_committee_member};
+use ika_system::bls_committee::{Self, BlsCommittee, new_bls_committee, new_bls_committee_member, members};
 use ika_system::class_groups_public_key_and_proof::ClassGroupsPublicKeyAndProof;
 use ika_system::validator_metadata::{ValidatorMetadata};
 use ika_system::extended_field::{Self, ExtendedField};
@@ -25,6 +25,8 @@ use sui::table::{Table};
 use sui::object_table::{Self, ObjectTable};
 use sui::vec_map::{Self, VecMap};
 use sui::vec_set::{Self, VecSet};
+use sui::group_ops::Element;
+use sui::bls12381::{UncompressedG1, g1_from_bytes, g1_to_uncompressed_g1};
 use std::string::String;
     use std::debug;
 
@@ -1125,3 +1127,22 @@ public fun request_add_validator_for_testing(
     // assert!(in_set, ECannotJoinActiveSet);
 }
 
+
+
+#[test_only]
+public fun add_validator_to_active_set(
+    self: &mut ValidatorSet,
+    validator_id: ID,
+    protocol_pubkey_bytes: vector<u8>,
+) {
+    let g1_element = g1_from_bytes(&protocol_pubkey_bytes);
+    let uncompressed_g1_element = g1_to_uncompressed_g1(&g1_element);
+
+    let new_member = new_bls_committee_member(validator_id, uncompressed_g1_element);
+
+    // Get a copy of current members, add the new one, and create a new committee
+    let mut updated_members = *members(&self.active_committee); // Dereference to make a copy of the vector
+    updated_members.push_back(new_member);
+
+    self.active_committee = new_bls_committee(updated_members);
+}

@@ -661,6 +661,16 @@ public fun inner_mut_for_testing(self: &mut System): &mut SystemInnerV1 {
     self.inner_mut()
 }
 
+#[test_only]
+public fun add_validator_to_active_committee_for_testing(
+    self: &mut System,
+    validator_id: ID,
+    protocol_pubkey: vector<u8>,
+) {
+    let self = self.inner_mut();
+    self.add_validator_to_active_committee_for_testing(validator_id, protocol_pubkey)
+}
+
 // #[test_only]
 // /// Directly adds a validator to the active committee for the current epoch.
 // /// This is a simplified function for testing purposes and bypasses normal

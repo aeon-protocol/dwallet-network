@@ -897,3 +897,12 @@ public(package) fun request_add_validator_for_testing(
 ) {
     self.validator_set.request_add_validator_for_testing(self.epoch, validator, validator_cap);
 }
+
+#[test_only]
+public fun add_validator_to_active_committee_for_testing(
+    self: &mut SystemInnerV1,
+    validator_id: ID,
+    protocol_pubkey: vector<u8>,
+) {
+    self.validator_set.add_validator_to_active_committee_for_testing(validator_id, protocol_pubkey)
+}
